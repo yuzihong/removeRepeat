@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script>
+	// 方法一：新建一数组，遍历传入数组，值不在新数组就push进新数组里  ie8以下不支持indexOf方法
+	let newArr=[];
+	let arr=[1,2,"2",4,9,"a","a",2,3,5,6,5];
+	for(var i=0;i<arr.length;i++){
+		if(newArr.indexOf(arr[i])<0){
+			newArr.push(arr[i]);
+		}
+	}
+	// console.log(newArr)
+
+	// 方法二：速度最快 占空间最多  新建一js对象以及新数组，遍历传入数组时，判断是否为js对象的键  不是的话给对象新增该键并放入新数组
+	// 注意点：判断是否为js对象键时  会自动对传入的键执行 “toString()“,
+	function uniq(arr){
+		var temp={},newArr=[],val,type;
+		for(var i=0;i<arr.length;i++){
+			val=arr[i];
+			type=typeof val;
+			if(!temp[val]){
+				//判断是否存在这个js对象键
+				temp[val]=[type];
+				newArr.push(val);
+			}else if(temp[val].indexOf(type) < 0){
+				//由于传入的键会自动执行 "toString()"   所以要区别下类型
+				temp[val].push(type);
+            	newArr.push(val);
+			}
+		}
+		return newArr;
+	}
+	var arr=[1,2,"2",4,9,"a","a",2,3,5,6,5];
+	uniq(arr);
+</script>
